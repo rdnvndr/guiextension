@@ -9,11 +9,11 @@
 namespace RTPTechGroup {
 namespace Widgets {
 
-
-//! Компонент, который который может быть пристыкован
-//! к главному окну QMainWindow. По сравнению с QDockWidget
-//! обладает свойством скрытия заголовка и автоскрытием заголовка
-
+//! Панель главного окна QMainWindow
+/*! Компонент, который который может быть пристыкован к главному окну
+    QMainWindow. По сравнению с QDockWidget обладает свойством скрытия заголовка
+    и автоскрытием заголовка
+*/
 class GUIEXTENSIONLIB DockWidget : public QDockWidget
 {
 public:
