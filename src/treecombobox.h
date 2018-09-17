@@ -34,7 +34,7 @@ public:
     //! Устанавливает текущий индекс модели списка
     void setCurrentModelIndex (const QModelIndex & index);
 
-    //! Возращает текущий индекс модели списка
+    //! Возвращает текущий индекс модели списка
     QModelIndex currentModelIndex ();
 
     //! Событие для перерисовки
