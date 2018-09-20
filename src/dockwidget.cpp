@@ -84,7 +84,7 @@ void DockWidget::setMinimumWidth(qint32 minw)
 void DockWidget::setTitleBarVisible(bool visible)
 {
     if (visible)
-        this->setTitleBarWidget(NULL);
+        this->setTitleBarWidget(nullptr);
     else
         this->setTitleBarWidget(m_emptyTitleBar);
 }
