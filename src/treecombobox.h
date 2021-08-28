@@ -1,8 +1,10 @@
-#ifndef TREECOMBOBOX_H
-#define TREECOMBOBOX_H
+﻿#pragma once
+
 #include "guiextensionglobal.h"
-#include <QComboBox>
-#include <QTreeView>
+
+#include <QtWidgets/QComboBox>
+
+class QTreeView;
 
 namespace RTPTechGroup {
 namespace Widgets {
@@ -23,53 +25,94 @@ class GUIEXTENSIONLIB TreeComboBox : public QComboBox
 {
 public:
     //! Конструктор класса
-    explicit TreeComboBox(QWidget *parent=0);
+    explicit TreeComboBox(QWidget *parent = nullptr);
 
     //! Деструктор класса
     virtual ~TreeComboBox();
 
     //! Устанавливает модель для списка
+    /*!
+       \param model Модель
+    */
     void setModel(QAbstractItemModel *model);
 
     //! Устанавливает текущий индекс модели списка
-    void setCurrentModelIndex (const QModelIndex & index);
+    /*!
+       \param index Индекс
+    */
+    void setCurrentModelIndex (const QModelIndex &index);
 
     //! Возвращает текущий индекс модели списка
-    QModelIndex currentModelIndex ();
+    /*!
+       \return Индекс
+    */
+    QModelIndex currentModelIndex();
 
     //! Событие для перерисовки
-    void paintEvent(QPaintEvent *);
+    /*!
+       \brief paintEvent
+    */
+    void paintEvent(QPaintEvent *event);
 
-    //! Утанавливает текст по умолчанию
+    //! Устанавливает текст по умолчанию
+    /*!
+       \param text Текст по умолчанию
+    */
     void setDisplayText(const QString &text);
 
     //! Получение текста по умолчанию
+    /*!
+       \return Текст по умолчанию
+    */
     QString displayText() const;
 
-    //! Утанавливает иконку по умолчанию
+    //! Устанавливает иконку по умолчанию
+    /*!
+       \param icon"> иконка
+    */
     void setDisplayIcon(const QIcon &icon);
 
     //! Получение иконки по умолчанию
+    /*!
+       \return Иконка
+    */
     QIcon displayIcon() const;
 
-    //! Установка колонки для индекса
-    void setIndexColumn(qint32 column);
+    //! Устанавливает колонку со значением
+    /*!
+       \param column Колонка
+    */
+    void setIndexColumn(int column);
 
-    //! Утанавливать режим Показа иконки
+    //! Устанавливает колонку для отображения
+    /*!
+       \param column Колонка
+    */
+    void setShowingColumn(int column);
+
+    //! Устанавливает режим показа иконки
+    /*!
+       \param showing Режим отображения иконки
+    */
     void setShowingIcon(bool showing);
 
-    //! Получить режим показа иконки
+    //! Получение режима показа иконки
+    /*!
+       \return Режим отображения иконки
+    */
     bool showingIcon();
 
     //! Устанавливает корневой индекс
-    void setRootModelIndex(const QModelIndex & index);
+    /*!
+       \param index Индекс
+    */
+    void setRootModelIndex(const QModelIndex &index);
 
     //! Получение корневого индекса
+    /*!
+       \return Индекс
+    */
     QModelIndex rootModelIndex();
-
-private:
-    //! Фильтр событий
-    bool eventFilter(QObject*object,QEvent*event);
 
     //! Показывает выпадающий список в виде дерева
     void showPopup();
@@ -77,28 +120,38 @@ private:
     //! Скрывает выпадающий список в виде дерева
     void hidePopup();
 
-    //! Флаг пропуска показа спиcка
-    bool skipNextHide;
+protected:
+    //! Фильтр событий
+    /*!
+        \param object Объект
+        \param event Событие
+    */
+    bool eventFilter(QObject *object, QEvent *event);
+
+private:
+    //! Флаг пропуска показа списка
+    bool _skipNextHide;
 
     //! Древовидный список
-    QTreeView *treeView;
+    QTreeView *_treeView;
 
     //! Текст по умолчанию
-    QString m_displayText;
+    QString _displayText;
 
     //! Иконка по умолчанию
-    QIcon   m_displayIcon;
+    QIcon _displayIcon;
 
     //! Режим показа иконки
-    bool m_showingIcon;
+    bool _showingIcon;
+
+    //! Колонка с отображаемым значением
+    int _showingColumn;
 
     //! Колонка со значением
-    qint32 m_indexColumn ;
+    int _indexColumn;
 
     //! Корневой индекс
-    QModelIndex m_rootIndex;
+    QModelIndex _rootIndex;
 };
 
 }}
-
-#endif // TREECOMBOBOX_H
