@@ -15,7 +15,10 @@ TreeComboBox::TreeComboBox(QWidget *parent) : QComboBox(parent), _skipNextHide(f
     QComboBox::resize(250, 30);
 
     _treeView = new QTreeView();
+    _treeView->setExpandsOnDoubleClick(false);
+    _treeView->setEditTriggers(QTreeView::NoEditTriggers);
     _treeView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    _treeView->setSelectionMode(QAbstractItemView::QAbstractItemView::SingleSelection);
     connect(_treeView, &QTreeView::expanded, this, [this](const QModelIndex &index) {
         _treeView->header()->setStretchLastSection(false);
         _treeView->resizeColumnToContents(_showingColumn);
@@ -49,7 +52,15 @@ bool TreeComboBox::eventFilter(QObject *object, QEvent *event)
         QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(event);
         QModelIndex index = view()->indexAt(mouseEvent->pos());
         if(!view()->visualRect(index).contains(mouseEvent->pos()))
+        {
             _skipNextHide = true;
+
+            // BUG: Исправляет ошибку быстрого раскрытия узла кликом мышки
+            auto *treeView = qobject_cast<QTreeView *>(view());
+            if (view()->visualRect(index).x() - treeView->indentation() < mouseEvent->pos().x())
+                treeView->setExpanded(index, !treeView->isExpanded(index));
+            return true;
+        }
     }
     return false;
 }
@@ -93,6 +104,7 @@ void TreeComboBox::setCurrentModelIndex(const QModelIndex &index)
 {
     _treeView->setCurrentIndex(index);
     hidePopup();
+    emit currentIndexChanged(index.row());
 }
 
 QModelIndex TreeComboBox::currentModelIndex()
